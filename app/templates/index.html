@@ -4,43 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physics AI Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Physics AI Assistant</h1>
-            <p>For JEE and NEET Aspirants</p>
+            <h1><i class="fas fa-atom"></i> Physics AI Assistant</h1>
+            <p>Your Smart Study Companion for JEE and NEET Aspirants</p>
             <div class="export-buttons">
-                <button id="export-pdf" class="disabled">Export as PDF</button>
-                <button id="export-docx" class="disabled">Export as DOCX</button>
+                <button id="export-pdf" class="disabled"><i class="fas fa-file-pdf"></i> Export as PDF</button>
+                <button id="export-docx" class="disabled"><i class="fas fa-file-word"></i> Export as DOCX</button>
             </div>
         </header>
 
         <div class="tabs">
-            <button class="tab-btn active" data-tab="single">Single Question</button>
-            <button class="tab-btn" data-tab="batch">Batch Processing</button>
+            <button class="tab-btn active" data-tab="single"><i class="fas fa-question-circle"></i> Single Question</button>
+            <button class="tab-btn" data-tab="batch"><i class="fas fa-tasks"></i> Batch Processing</button>
         </div>
 
         <div class="tab-content active" id="single-tab">
             <div class="input-section">
                 <div class="input-methods">
-                    <button class="input-method active" data-method="text">Text Input</button>
-                    <button class="input-method" data-method="image">Image Upload</button>
+                    <button class="input-method active" data-method="text"><i class="fas fa-keyboard"></i> Text Input</button>
+                    <button class="input-method" data-method="image"><i class="fas fa-image"></i> Image Upload</button>
                 </div>
                 
                 <div class="input-area" id="text-input-area">
                     <textarea id="question-input" placeholder="Enter your physics question here..."></textarea>
-                    <button id="submit-question">Get Solution</button>
+                    <button id="submit-question"><i class="fas fa-paper-plane"></i> Get Solution</button>
                 </div>
                 
                 <div class="input-area hidden" id="image-input-area">
                     <div class="image-upload-container">
-                        <label for="image-upload">Upload an image of your question</label>
+                        <label for="image-upload"><i class="fas fa-cloud-upload-alt"></i> Upload an image of your question</label>
                         <input type="file" id="image-upload" accept="image/*">
                         <div class="preview-container hidden">
                             <img id="image-preview" src="#" alt="Preview">
-                            <button id="submit-image">Process Image</button>
+                            <button id="submit-image"><i class="fas fa-magic"></i> Process Image</button>
                         </div>
                     </div>
                 </div>
@@ -50,8 +52,8 @@
         <div class="tab-content" id="batch-tab">
             <div class="batch-container">
                 <div class="batch-input-methods">
-                    <button class="batch-input-method active" data-method="text">Text Input</button>
-                    <button class="batch-input-method" data-method="file">File Upload</button>
+                    <button class="batch-input-method active" data-method="text"><i class="fas fa-list"></i> Text Input</button>
+                    <button class="batch-input-method" data-method="file"><i class="fas fa-file-upload"></i> File Upload</button>
                 </div>
                 
                 <div class="batch-input-area" id="text-batch-area">
@@ -60,20 +62,20 @@
                     </div>
                     <div class="batch-controls">
                         <textarea id="batch-question-input" placeholder="Enter a physics question..."></textarea>
-                        <button id="add-question">Add Question</button>
+                        <button id="add-question"><i class="fas fa-plus"></i> Add Question</button>
                         <div class="batch-options">
                             <label class="checkbox-container">
                                 <input type="checkbox" id="use-batch-api" checked>
                                 <span>Use OpenAI Batch API (50% cheaper but may take longer)</span>
                             </label>
                         </div>
-                        <button id="process-batch" class="disabled">Process All Questions</button>
+                        <button id="process-batch" class="disabled"><i class="fas fa-bolt"></i> Process All Questions</button>
                     </div>
                 </div>
                 
                 <div class="batch-input-area hidden" id="file-batch-area">
                     <div class="file-upload-container">
-                        <p class="batch-instructions">Upload a text file with one question per line (TXT format)</p>
+                        <p class="batch-instructions"><i class="fas fa-info-circle"></i> Upload a text file with one question per line (TXT format)</p>
                         <input type="file" id="questions-file-upload" accept=".txt">
                         <div class="file-preview-container hidden">
                             <div id="file-preview"></div>
@@ -83,17 +85,17 @@
                                     <span>Use OpenAI Batch API (50% cheaper but may take longer)</span>
                                 </label>
                             </div>
-                            <button id="process-file-batch" class="disabled">Process All Questions</button>
+                            <button id="process-file-batch" class="disabled"><i class="fas fa-bolt"></i> Process All Questions</button>
                         </div>
                     </div>
                 </div>
                 
                 <div class="bulk-text-container">
-                    <button id="show-bulk-input">Enter Multiple Questions at Once</button>
+                    <button id="show-bulk-input"><i class="fas fa-layer-group"></i> Enter Multiple Questions at Once</button>
                     <div class="bulk-input-area hidden">
                         <p>Enter multiple questions, one per line:</p>
                         <textarea id="bulk-questions-input" placeholder="Question 1&#10;Question 2&#10;Question 3..."></textarea>
-                        <button id="add-bulk-questions">Add All Questions</button>
+                        <button id="add-bulk-questions"><i class="fas fa-plus-circle"></i> Add All Questions</button>
                     </div>
                 </div>
             </div>
@@ -105,7 +107,7 @@
 
         <div class="loading hidden">
             <div class="spinner"></div>
-            <p>Processing your question...</p>
+            <p>Processing your physics question...</p>
         </div>
     </div>
 

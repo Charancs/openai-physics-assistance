@@ -30,32 +30,11 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 
-# Add proxy configuration (can be commented out for personal laptop use)
-# Get proxies from environment or .env file
-http_proxy = os.getenv("HTTP_PROXY", "http://proxy:8080")
-https_proxy = os.getenv("HTTPS_PROXY", "http://proxy:8080")
-
-# Flag to enable/disable proxy (set to False to disable)
-USE_PROXY = True  # Set to False when using on a personal laptop without proxy
-
 # Add timeout configuration for API requests
 from openai import OpenAI
 import httpx
 
-# Configure proxies for httpx
-proxies = None
-if USE_PROXY:
-    # Format proxies according to httpx expected format
-    proxies = {
-        "http://": http_proxy,
-        "https://": https_proxy
-    }
-    print(f"Using proxies: {proxies}")
-    # Set environment variables for OpenAI client
-    os.environ["HTTP_PROXY"] = http_proxy
-    os.environ["HTTPS_PROXY"] = https_proxy
-
-# Create OpenAI client with proxy and timeout settings
+# Create OpenAI client with timeout settings
 openai_client = OpenAI(
     api_key=openai.api_key,
     timeout=httpx.Timeout(60.0, connect=10.0)
@@ -237,59 +216,14 @@ def api_test():
             "status": "success",
             "message": "Successfully connected to OpenAI API",
             "api_key_configured": bool(openai.api_key),
-            "models_count": len(models.data) if hasattr(models, 'data') else 0,
-            "proxy_enabled": USE_PROXY,
-            "proxies": proxies if USE_PROXY else "Not using proxies"
+            "models_count": len(models.data) if hasattr(models, 'data') else 0
         })
     except Exception as e:
         return jsonify({
             "status": "error",
             "message": f"Error connecting to OpenAI API: {str(e)}",
-            "api_key_configured": bool(openai.api_key),
-            "proxy_enabled": USE_PROXY,
-            "proxies": proxies if USE_PROXY else "Not using proxies"
+            "api_key_configured": bool(openai.api_key)
         }), 500
-
-@app.route('/toggle_proxy')
-def toggle_proxy():
-    """Toggle proxy usage"""
-    global USE_PROXY, proxies, openai_client
-    
-    # Toggle the proxy flag
-    USE_PROXY = not USE_PROXY
-    
-    # Reconfigure environment
-    if USE_PROXY:
-        # Set proxies
-        proxies = {
-            "http://": http_proxy,
-            "https://": https_proxy
-        }
-        # Set environment variables
-        os.environ["HTTP_PROXY"] = http_proxy
-        os.environ["HTTPS_PROXY"] = https_proxy
-        print(f"Proxy enabled: {proxies}")
-    else:
-        # Clear proxies
-        proxies = None
-        # Unset environment variables
-        if "HTTP_PROXY" in os.environ:
-            del os.environ["HTTP_PROXY"]
-        if "HTTPS_PROXY" in os.environ:
-            del os.environ["HTTPS_PROXY"]
-        print("Proxy disabled")
-    
-    # Recreate the client (timeout will be taken from environment)
-    openai_client = OpenAI(
-        api_key=openai.api_key,
-        timeout=httpx.Timeout(60.0, connect=10.0)
-    )
-    
-    return jsonify({
-        "status": "success",
-        "proxy_enabled": USE_PROXY,
-        "message": f"Proxy {'enabled' if USE_PROXY else 'disabled'}"
-    })
 
 @app.route('/process_file', methods=['POST'])
 def process_file():
