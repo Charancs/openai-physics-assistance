@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Physics AI Assistant</h1>
+            <p>For JEE and NEET Aspirants</p>
+            <div class="export-buttons">
+                <button id="export-pdf" class="disabled">Export as PDF</button>
+                <button id="export-docx" class="disabled">Export as DOCX</button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="single">Single Question</button>
+            <button class="tab-btn" data-tab="batch">Batch Processing</button>
+        </div>
+
+        <div class="tab-content active" id="single-tab">
+            <div class="input-section">
+                <div class="input-methods">
+                    <button class="input-method active" data-method="text">Text Input</button>
+                    <button class="input-method" data-method="image">Image Upload</button>
+                </div>
+                
+                <div class="input-area" id="text-input-area">
+                    <textarea id="question-input" placeholder="Enter your physics question here..."></textarea>
+                    <button id="submit-question">Get Solution</button>
+                </div>
+                
+                <div class="input-area hidden" id="image-input-area">
+                    <div class="image-upload-container">
+                        <label for="image-upload">Upload an image of your question</label>
+                        <input type="file" id="image-upload" accept="image/*">
+                        <div class="preview-container hidden">
+                            <img id="image-preview" src="#" alt="Preview">
+                            <button id="submit-image">Process Image</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="batch-tab">
+            <div class="batch-container">
+                <div class="batch-input-methods">
+                    <button class="batch-input-method active" data-method="text">Text Input</button>
+                    <button class="batch-input-method" data-method="file">File Upload</button>
+                </div>
+                
+                <div class="batch-input-area" id="text-batch-area">
+                    <div id="questions-list">
+                        <!-- Questions will be added here -->
+                    </div>
+                    <div class="batch-controls">
+                        <textarea id="batch-question-input" placeholder="Enter a physics question..."></textarea>
+                        <button id="add-question">Add Question</button>
+                        <div class="batch-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="use-batch-api" checked>
+                                <span>Use OpenAI Batch API (50% cheaper but may take longer)</span>
+                            </label>
+                        </div>
+                        <button id="process-batch" class="disabled">Process All Questions</button>
+                    </div>
+                </div>
+                
+                <div class="batch-input-area hidden" id="file-batch-area">
+                    <div class="file-upload-container">
+                        <p class="batch-instructions">Upload a text file with one question per line (TXT format)</p>
+                        <input type="file" id="questions-file-upload" accept=".txt">
+                        <div class="file-preview-container hidden">
+                            <div id="file-preview"></div>
+                            <div class="batch-options">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="use-batch-api-file" checked>
+                                    <span>Use OpenAI Batch API (50% cheaper but may take longer)</span>
+                                </label>
+                            </div>
+                            <button id="process-file-batch" class="disabled">Process All Questions</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bulk-text-container">
+                    <button id="show-bulk-input">Enter Multiple Questions at Once</button>
+                    <div class="bulk-input-area hidden">
+                        <p>Enter multiple questions, one per line:</p>
+                        <textarea id="bulk-questions-input" placeholder="Question 1&#10;Question 2&#10;Question 3..."></textarea>
+                        <button id="add-bulk-questions">Add All Questions</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-section" id="results-container">
+            <!-- Results will be shown here -->
+        </div>
+
+        <div class="loading hidden">
+            <div class="spinner"></div>
+            <p>Processing your question...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
